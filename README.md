@@ -1,58 +1,49 @@
 
-# Welcome to your CDK Python project!
+# CDK Dev Instance
 
-This is a blank project for CDK development with Python.
+This will create an EC2 instance running docker, ready for you to connect to and
+use with VSCode's dev containers
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+To deploy:
 
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the `.venv`
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
+    ```
+    cdk deploy -c github_username=$YOUR_GITHUB_USERNAME
+    ```
 
-To manually create a virtualenv on MacOS and Linux:
+(Optionally_ Supply your github username and the EC2 instance will download your
+public key from github and add it to authorized_keys so you can ssh into the instance.
 
-```
-$ python3 -m venv .venv
-```
+By default, this will provision:
+    * m6i.large (2CPU 8GB RAM)
+    * 80GB Disk
 
-After the init process completes and the virtualenv is created, you can use the following
-step to activate your virtualenv.
+The instance will have AdministratorAccess to your AWS account, so any user accessing the instance
+will be able to make Admin level API calls.
 
-```
-$ source .venv/bin/activate
-```
+### Connecting with AWS Session Manager
+To connect to the instance you can use AWS's Session Manager
 
-If you are a Windows platform, you would activate the virtualenv like this:
+https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-getting-started.html
 
-```
-% .venv\Scripts\activate.bat
-```
 
-Once the virtualenv is activated, you can install the required dependencies.
+##### SSH access through SSM
+
+Add the below to your `~/.ssh/config` file:
+
 
 ```
-$ pip install -r requirements.txt
+Host i-*
+  ProxyCommand sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"
 ```
 
-At this point you can now synthesize the CloudFormation template for this code.
+##### Port forwarding
+Using session manager you can forward a remote port to your local machine:
+
+The below example will put the remote port 22 on your local port 2222
+```
+aws ssm start-session \
+    --target $AWS_INSTANCE_ID \
+    --document-name AWS-StartPortForwardingSession \
+    --parameters '{"portNumber":["22"], "localPortNumber":["2222"]}'
 
 ```
-$ cdk synth
-```
-
-To add additional dependencies, for example other CDK libraries, just add
-them to your `setup.py` file and rerun the `pip install -r requirements.txt`
-command.
-
-## Useful commands
-
- * `cdk ls`          list all stacks in the app
- * `cdk synth`       emits the synthesized CloudFormation template
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk docs`        open CDK documentation
-
-Enjoy!
