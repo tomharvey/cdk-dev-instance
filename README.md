@@ -52,3 +52,14 @@ aws ssm start-session \
     --parameters '{"portNumber":["22"], "localPortNumber":["2222"]}'
 
 ```
+
+### Using with VSCode
+
+This repo has a .devcontainer - so open it in VSCode as a devcontainer and you can run
+the CDK deployment without worrying about setting up your local workstation with
+node or cdk tooling.
+
+Once you've created the instance you can use the Remote-SSH VSCode plugin to connect
+to the instance.
+
+From there, clone your repo to work on it, and run devcontainers on the remote instance.
