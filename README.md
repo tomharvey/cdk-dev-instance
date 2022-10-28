@@ -20,6 +20,13 @@ By default, this will provision:
 The instance will have AdministratorAccess to your AWS account, so any user accessing the instance
 will be able to make Admin level API calls.
 
+##### To delete
+
+When you're finished you can run `cdk destroy` to remove all the resources.
+
+This will delete the volume, so make sure you push any work to GitHub, S3 or some other
+persistent storage.
+
 ### Connecting with AWS Session Manager
 To connect to the instance you can use AWS's Session Manager
 
