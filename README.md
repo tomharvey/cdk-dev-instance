@@ -20,20 +20,20 @@ By default, this will provision:
 The instance will have AdministratorAccess to your AWS account, so any user accessing the instance
 will be able to make Admin level API calls.
 
-##### To delete
+### To delete
 
 When you're finished you can run `cdk destroy` to remove all the resources.
 
 This will delete the volume, so make sure you push any work to GitHub, S3 or some other
 persistent storage.
 
-### Connecting with AWS Session Manager
+## Connecting with AWS Session Manager
 To connect to the instance you can use AWS's Session Manager
 
 https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-getting-started.html
 
 
-##### SSH access through SSM
+### SSH access through SSM
 
 Add the below to your `~/.ssh/config` file:
 
@@ -43,7 +43,7 @@ Host i-*
   ProxyCommand sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"
 ```
 
-##### Port forwarding
+### Port forwarding
 Using session manager you can forward a remote port to your local machine:
 
 The below example will put the remote port 22 on your local port 2222
