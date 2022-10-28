@@ -6,9 +6,7 @@ use with VSCode's dev containers
 
 To deploy:
 
-    ```
     cdk deploy -c github_username=$YOUR_GITHUB_USERNAME
-    ```
 
 (Optionally_ Supply your github username and the EC2 instance will download your
 public key from github and add it to authorized_keys so you can ssh into the instance.
